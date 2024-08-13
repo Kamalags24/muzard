@@ -1,1 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
+/* src/app/album-list/album-list.component.css */
+.album {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 16px 0;
+  }
+  .album-header {
+    font-weight: bold;
+    color: purple;
+  }
+  .album-title {
+    font-size: 1.5em;
+    margin-top: 8px;
+  }
+  .album-description {
+    margin: 16px 0;
+  }
+  .album-tags {
+    margin: 8px 0;
+  }
+  .tag {
+    background-color: #e0f7fa;
+    border-radius: 3px;
+    padding: 2px 8px;
+    margin: 0 4px;
+    display: inline-block;
+  }
+  .album-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  

@@ -1,0 +1,138 @@
+<!-- <div class="album-list">
+  <app-search></app-search>
+  <h2>Page principale Album Music</h2>
+  <div *ngFor="let album of albums" class="album-card">
+    <h3>{{ album.genre }}</h3>
+    <h2>{{ album.title }}</h2>
+    <p>{{ album.description }}</p>
+    <div class="tags"> -->
+<!-- Add tags here -->
+<!-- </div>
+    <div class="album-info">
+      <span>en</span>
+      <span class="likes">5</span>
+      <span class="duration">840 min</span>
+      <a [routerLink]="['/album', album.id]">Details</a>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="album-list">
+  <h2>Page principale Album Music</h2>
+  <div *ngFor="let album of albums" class="album-card">
+    <h3>{{ album.genre }}</h3>
+    <h2>{{ album.title }}</h2>
+    <p>{{ album.description }}</p>
+    <div class="tags">
+      <span
+        *ngFor="
+          let tag of [
+            'laborum',
+            'elit',
+            'tempor',
+            'eu',
+            'laborum',
+            'mollit',
+            'aliqua'
+          ]
+        "
+        class="tag"
+        >{{ tag }}</span
+      >
+    </div>
+    <div class="album-info">
+      <span>en</span>
+      <span class="likes">5</span>
+      <span class="duration">840 min</span>
+      <button
+        *ngIf="!selectedAlbum || selectedAlbum.id !== album.id"
+        (click)="showDetails(album)"
+      >
+        Details
+      </button>
+    </div>
+  </div>
+</div>
+
+<aside *ngIf="selectedAlbum" class="album-details">
+  <button class="close-button" (click)="hideDetails()">X</button>
+  <img [src]="selectedAlbum.image" [alt]="selectedAlbum.title" />
+  <h2>{{ selectedAlbum.title }}</h2>
+  <p>Name: {{ selectedAlbum.title }}</p>
+  <button>Play</button>
+  <h3>List of songs</h3>
+  <ul>
+    <li *ngFor="let song of selectedAlbum.songs">{{ song }}</li>
+  </ul>
+</aside> -->
+
+<!-- <div class="album-list">
+    <h2>Page principale Album Music</h2>
+    <div *ngFor="let list of lists" class="genre-section">
+      <h3>{{ list.name }}</h3>
+      <div *ngFor="let album of list.albums" class="album-card">
+        <h2>{{album.title}}</h2>
+        <p>{{album.description}}</p>
+        <div class="tags">
+          <span *ngFor="let tag of ['laborum', 'elit', 'tempor', 'eu', 'laborum', 'mollit', 'aliqua']" class="tag">{{tag}}</span>
+        </div>
+        <div class="album-info">
+          <span>en</span>
+          <span class="likes">5</span>
+          <span class="duration">840 min</span>
+          <button *ngIf="!selectedAlbum || selectedAlbum.id !== album.id" (click)="showDetails(album)">Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <aside *ngIf="selectedAlbum" class="album-details">
+    <button class="close-button" (click)="hideDetails()">X</button>
+    <img [src]="selectedAlbum.image" [alt]="selectedAlbum.title">
+    <h2>{{selectedAlbum.title}}</h2>
+    <p>Artist: {{selectedAlbum.artist}}</p>
+    <button>Play</button>
+    <h3>List of songs</h3>
+    <ul>
+      <li *ngFor="let song of selectedAlbum.songs">{{song}}</li>
+    </ul>
+  </aside> -->
+
+<div class="album-list">
+    <app-search></app-search>
+    <h2>Page principale Album Music</h2>
+    <div *ngFor="let album of albums" class="album-card">
+        <h3>{{ album.ref }}</h3>
+        <h2><a class="nav-link" routerLink="/album/{{ album.id }}" class="hover:underline">{{ album.title }}</a></h2>
+        <!-- <h2>{{ album.title }}</h2> -->
+        <p>{{ album.description }}</p>
+        <div class="tags" *ngIf="album.tags">
+            <span *ngFor="let tag of album.tags" class="tag">{{ tag }}</span>
+        </div>
+        <div class="album-info">
+            <span>{{ album.duration }} sec</span>
+            <span class="likes" *ngIf="album.like">{{ album.like }}</span>
+            <button *ngIf="!selectedAlbum || selectedAlbum.id !== album.id" (click)="showDetails(album)">
+                Details
+            </button>
+        </div>
+    </div>
+</div>
+
+<aside *ngIf="selectedAlbum" class="album-details">
+    <button class="close-button" (click)="hideDetails()">❌</button>
+    <img class="img-fluid img-thumbnail" src="{{selectedAlbum.url}}" [alt]="selectedAlbum.title" />
+    <h2>{{ selectedAlbum.title }}</h2>
+    <p>Artist: {{ selectedAlbum.name }}</p>
+    <button (click)="playAlbum()">{{ isPlaying ? "Pause" : "Play" }}</button>
+    <div *ngIf="isPlaying" class="progress-bar">
+        <div class="progress" [style.width.%]="progress"></div>
+    </div>
+    <h3>List of songs</h3>
+    <ul>
+        <li *ngFor="let song of lists[+selectedAlbum.id - 1].list; let i = index"
+            [class.playing]="i === currentSongIndex && isPlaying">
+            {{ song }}
+        </li>
+    </ul>
+</aside>
