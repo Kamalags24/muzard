@@ -1,13 +1,13 @@
 header {
     background-color: #3f51b5;
     color: white;
-    padding: 10px 20px;
+    /* padding: 10px 20px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; */
 }
 
-.logo {
+/* .logo {
     font-size: 24px;
     font-weight: bold;
 }
@@ -20,4 +20,4 @@ nav a {
 
 nav a:hover {
     text-decoration: underline;
-}
+} */

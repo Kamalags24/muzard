@@ -98,41 +98,75 @@
     </ul>
   </aside> -->
 
+<div class="search-bar">
+  <input [(ngModel)]="searchTerm" (keyup)="onSearch()" placeholder="Rechercher un album...">
+  {{ searchTerm }}
+</div>
 <div class="album-list">
-    <app-search></app-search>
-    <h2>Page principale Album Music</h2>
-    <div *ngFor="let album of albums" class="album-card">
-        <h3>{{ album.ref }}</h3>
-        <h2><a class="nav-link" routerLink="/album/{{ album.id }}" class="hover:underline">{{ album.title }}</a></h2>
-        <!-- <h2>{{ album.title }}</h2> -->
-        <p>{{ album.description }}</p>
-        <div class="tags" *ngIf="album.tags">
-            <span *ngFor="let tag of album.tags" class="tag">{{ tag }}</span>
-        </div>
-        <div class="album-info">
-            <span>{{ album.duration }} sec</span>
-            <span class="likes" *ngIf="album.like">{{ album.like }}</span>
-            <button *ngIf="!selectedAlbum || selectedAlbum.id !== album.id" (click)="showDetails(album)">
-                Details
-            </button>
-        </div>
+  <!-- <app-search></app-search> -->
+  <h2>Page principale Album Music</h2>
+  <div class="pagination">
+    <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">Précédent</button>
+    <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">Suivant</button>
+  </div>
+  <div *ngFor="let album of albums" class="album-card">
+    <h3>{{ album.ref }}</h3>
+    <h2><a class="nav-link" routerLink="/album/{{ album.id }}" class="hover:underline">{{ album.title }}</a></h2>
+    <!-- <h2>{{ album.title }}</h2> -->
+    <p>{{ album.description }}</p>
+    <div class="tags" *ngIf="album.tags">
+      <span *ngFor="let tag of album.tags" class="tag">{{ tag }}</span>
     </div>
+    <div class="album-info">
+      <span class="col-sm-6 mb-3 mb-sm-0">{{ album.duration }} sec</span>
+      <span class="likes" *ngIf="album.like">{{ album.like }}</span>
+      <button *ngIf="!selectedAlbum || selectedAlbum.id !== album.id" (click)="showDetails(album)">
+        Details
+      </button>
+    </div>
+  </div>
 </div>
 
+<div class="pagination">
+  <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">Précédent</button>
+  <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+  <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">Suivant</button>
+</div>
+
+<!-- <aside *ngIf="selectedAlbum" class="album-details">
+  <button class="close-button" (click)="hideDetails()">❌</button>
+  <img class="img-fluid img-thumbnail" src="{{selectedAlbum.url}}" [alt]="selectedAlbum.title" />
+  <h2>{{ selectedAlbum.title }}</h2>
+  <p>Artist: {{ selectedAlbum.name }}</p>
+  <button (click)="playAlbum()">{{ isPlaying ? "Pause" : "Play" }}</button>
+  <div *ngIf="isPlaying" class="progress-bar">
+    <div class="progress" [style.width.%]="progress"></div>
+  </div>
+  <h3>List of songs</h3>
+  <ul>
+    <li *ngFor="let song of lists[+selectedAlbum.id - 1].list; let i = index"
+      [class.playing]="i === currentSongIndex && isPlaying">
+      {{ song }}
+    </li>
+  </ul>
+</aside> -->
+
 <aside *ngIf="selectedAlbum" class="album-details">
-    <button class="close-button" (click)="hideDetails()">❌</button>
-    <img class="img-fluid img-thumbnail" src="{{selectedAlbum.url}}" [alt]="selectedAlbum.title" />
-    <h2>{{ selectedAlbum.title }}</h2>
-    <p>Artist: {{ selectedAlbum.name }}</p>
-    <button (click)="playAlbum()">{{ isPlaying ? "Pause" : "Play" }}</button>
-    <div *ngIf="isPlaying" class="progress-bar">
-        <div class="progress" [style.width.%]="progress"></div>
-    </div>
-    <h3>List of songs</h3>
-    <ul>
-        <li *ngFor="let song of lists[+selectedAlbum.id - 1].list; let i = index"
-            [class.playing]="i === currentSongIndex && isPlaying">
-            {{ song }}
-        </li>
-    </ul>
+  <button class="close-button" (click)="hideDetails()">X</button>
+  <img class="img-fluid img-thumbnail" [src]="selectedAlbum.url" [alt]="selectedAlbum.title">
+  <h2>{{selectedAlbum.title}}</h2>
+  <p>Artist: {{selectedAlbum.name}}</p>
+  <button (click)="playAlbum()">{{ isPlaying ? 'Pause' : 'Play' }}</button>
+  <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar" style="width: 0%" [style.width.%]="progress"></div>
+  </div>
+  <h3>List of songs</h3>
+  <ul>
+    <li *ngFor="let song of currentList; let i = index" [class.playing]="i === currentSongIndex && isPlaying"
+      [class.played]="i < currentSongIndex">
+      {{song}}
+      <span *ngIf="i === currentSongIndex && isPlaying"> (Playing)</span>
+    </li>
+  </ul>
 </aside>
