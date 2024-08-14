@@ -55,6 +55,9 @@ export class AlbumListComponent implements OnInit {
   isPlaying = false;
   progress = 0;
   currentList: string[] = [];
+  pageNumbers?: number[];
+  selected?: string;
+
 
   // Search
   searchTerm: string = '';
@@ -74,6 +77,42 @@ export class AlbumListComponent implements OnInit {
       this.updateDisplayedAlbums();
     });
     this.albumService.getLists().subscribe((lists) => (this.lists = lists));
+    this.loadAlbumPage(this.currentPage);
+  }
+
+  loadAlbumPage(page: number): void {
+    this.albumService.getAlbum(page).subscribe(data => {
+      this.albums = data;
+      this.totalPages = this.albumService.getTotalPages();
+      this.updatePageNumbers();
+    });
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadAlbumPage(this.currentPage);
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadAlbumPage(this.currentPage);
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadAlbumPage(this.currentPage);
+    }
+  }
+  updatePageNumbers(): void {
+    const range = 2;
+    const start = Math.max(1, this.currentPage - range);
+    const end = Math.min(this.totalPages, this.currentPage + range);
+    this.pageNumbers = Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }
 
   updateDisplayedAlbums(): void {
@@ -92,10 +131,10 @@ export class AlbumListComponent implements OnInit {
   onSearch(): void {
     // this.currentPage = 1;
     // this.updateDisplayedAlbums();
-    if(this.searchTerm.trim()!=="") {
-      this.albums=this.albums.filter((el)=> el.title.toLowerCase().includes(this.searchTerm.toLowerCase()) )
+    if (this.searchTerm.trim() !== "") {
+      this.albums = this.albums.filter((el) => el.title.toLowerCase().includes(this.searchTerm.toLowerCase()))
     } else {
-      this.albums=ALBUMS;
+      this.albums = ALBUMS;
     }
   }
 

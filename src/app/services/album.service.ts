@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { List } from '../interfaces/list';
 import { Album } from '../interfaces/album';
 import { ALBUMS, ALBUM_LISTS } from '../mock-albums';
@@ -62,10 +62,21 @@ export class AlbumService {
 
   private albumsSubject = new BehaviorSubject<Album[]>(ALBUMS);
   private listsSubject = new BehaviorSubject<List[]>(ALBUM_LISTS);
+  private readonly pageSize = 2; 
+
 
   getAlbums(): Observable<Album[]> {
     return this.albumsSubject.asObservable();
   }
+
+  getAlbum(page: number):Observable<Album[]>{
+    
+    const start = (page - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    return of(ALBUMS.slice(start, end)); // Retourne une page de données  
+
+
+}
 
   getLists(): Observable<List[]> {
     return this.listsSubject.asObservable();
@@ -73,5 +84,9 @@ export class AlbumService {
 
   getAlbumById(id: string): Album | undefined {
     return ALBUMS.find(album => album.id === id);
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(ALBUMS.length / this.pageSize); // Calcule le nombre total de pages
   }
 }

@@ -9,13 +9,15 @@ import { HeaderComponent } from './components/header/header.component';
 import { SearchComponent } from './components/search/search.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     AlbumDetailComponent,
     AlbumListComponent,
     HeaderComponent,
-    SearchComponent
+    SearchComponent,
+    
   ],
   imports: [
     BrowserModule,
